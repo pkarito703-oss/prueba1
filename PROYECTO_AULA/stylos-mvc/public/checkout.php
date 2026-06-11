@@ -1,0 +1,777 @@
+<?php session_start(); ?>
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Finalizar Compra - Stylos Madys</title>
+  <meta name="description" content="Completa tu pedido de productos capilares y tratamientos para tu cabello">
+  <meta name="keywords" content="cuidado capilar, productos para el cabello, tratamientos capilares">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/drift-zoom/drift-basic.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+
+</head>
+
+<body class="checkout-page">
+
+  <header id="header" class="header position-relative">
+    <!-- Header Bar -->
+    <div class="header-bar">
+      <div class="container-fluid container-xl">
+        <div class="d-flex align-items-center justify-content-between">
+
+          <!-- Logo -->
+          <a href="index.html" class="logo d-flex align-items-center">
+            <img src="assets/img/logo.png" alt="Stylos Madys">
+          </a>
+
+          <!-- Search -->
+          <form class="header-search d-none d-lg-flex">
+            <input type="text" class="search-input" placeholder="Buscar productos, categorías, marcas...">
+            <button class="search-btn" type="submit">
+              <i class="bi bi-search"></i>
+              <span class="d-none d-xl-inline">Buscar</span>
+            </button>
+          </form>
+
+
+          <!-- Header Actions -->
+          <div class="header-actions d-flex align-items-center">
+
+            <!-- Mobile Search Toggle -->
+            <button class="action-icon mobile-search-toggle d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#mobileSearch" aria-expanded="false" aria-controls="mobileSearch">
+              <i class="bi bi-search"></i>
+            </button>
+
+            <!-- Account -->
+<div class="dropdown account-dropdown">
+  <button class="action-icon" data-bs-toggle="dropdown" aria-label="Account">
+    <i class="bi bi-person"></i>
+    <span class="action-label d-none d-md-inline">
+      <?php if(isset($_SESSION['logueado']) && $_SESSION['logueado']): ?>
+        <?= htmlspecialchars($_SESSION['nombre']) ?>
+      <?php else: ?>
+        Ingresar
+      <?php endif; ?>
+    </span>
+  </button>
+  <div class="dropdown-menu account-panel">
+
+    <?php if(isset($_SESSION['logueado']) && $_SESSION['logueado']): ?>
+      <!-- USUARIO LOGUEADO -->
+      <div class="account-panel-header">
+        <h6>¡Bienvenida, <?= htmlspecialchars($_SESSION['nombre']) ?>! 👋</h6>
+        <p><?= htmlspecialchars($_SESSION['email']) ?></p>
+      </div>
+      <div class="account-panel-links">
+        <a href="orders.php">
+          <i class="bi bi-box-seam"></i>
+          <span>Mis Pedidos</span>
+        </a>
+        <a href="citas.php">
+          <i class="bi bi-calendar-check"></i>
+          <span>Mis Citas</span>
+        </a>
+        <a href="logout.php" style="color: #e74c3c;">
+          <i class="bi bi-box-arrow-right"></i>
+          <span>Cerrar Sesión</span>
+        </a>
+      </div>
+
+    <?php else: ?>
+      <!-- USUARIO NO LOGUEADO -->
+      <div class="account-panel-header">
+        <h6>¡Bienvenido!</h6>
+        <p>Ingresa para tener la mejor experiencia</p>
+      </div>
+      <div class="account-panel-auth">
+        <a href="login.php" class="btn btn-signin">Iniciar Sesión</a>
+        <a href="login.php?tab=register" class="btn btn-register">Crear Cuenta</a>
+      </div>
+      <div class="account-panel-links">
+        <a href="orders.php">
+          <i class="bi bi-box-seam"></i>
+          <span>Mis Pedidos</span>
+        </a>
+      </div>
+    <?php endif; ?>
+
+  </div>
+</div>
+            <!-- Cart -->
+           <div class="dropdown cart-dropdown">
+                <button class="action-icon" data-bs-toggle="dropdown" aria-label="Cart">
+                  <i class="bi bi-cart3"></i>
+                  <span class="count-dot">3</span>
+                </button>
+              <div class="dropdown-menu cart-panel">
+                <div class="cart-panel-header">
+                  <h6>Carrito de Compras</h6>
+                  <span class="item-count">3 items</span>
+                </div>
+                <div class="cart-panel-body">
+                  <!-- Cart Item 1 -->
+                  <div class="cart-item">
+                    <div class="cart-item-img">
+                      <img src="assets/img/product/product-1.webp" alt="Product" class="img-fluid">
+                    </div>
+                    <div class="cart-item-info">
+                      <h6>Shampoo Pro Crecimiento</h6>
+                      <div class="cart-item-meta">
+                        <span class="cart-item-price">$35.000</span>
+                        <span class="cart-item-qty">Cant: 1</span>
+                      </div>
+                    </div>
+                    <button class="cart-item-remove" aria-label="Remove item">
+                      <i class="bi bi-x-lg"></i>
+                    </button>
+                  </div><!-- End Cart Item -->
+
+                  <!-- Cart Item 2 -->
+                  <div class="cart-item">
+                    <div class="cart-item-img">
+                      <img src="assets/img/product/product-2.webp" alt="Product" class="img-fluid">
+                    </div>
+                    <div class="cart-item-info">
+                      <h6>Acondicionador Botánico Romero</h6>
+                      <div class="cart-item-meta">
+                        <span class="cart-item-price">$34.400</span>
+                        <span class="cart-item-qty">Cant: 1</span>
+                      </div>
+                    </div>
+                    <button class="cart-item-remove" aria-label="Remove item">
+                      <i class="bi bi-x-lg"></i>
+                    </button>
+                  </div><!-- End Cart Item -->
+
+                  <!-- Cart Item 3 -->
+                  <div class="cart-item">
+                    <div class="cart-item-img">
+                      <img src="assets/img/product/product-3.webp" alt="Product" class="img-fluid">
+                    </div>
+                    <div class="cart-item-info">
+                      <h6>Tratamiento de Rizos</h6>
+                      <div class="cart-item-meta">
+                        <span class="cart-item-price">$35.000</span>
+                        <span class="cart-item-qty">Cant: 2</span>
+                      </div>
+                    </div>
+                    <button class="cart-item-remove" aria-label="Remove item">
+                      <i class="bi bi-x-lg"></i>
+                    </button>
+                  </div><!-- End Cart Item -->
+                </div>
+                <div class="cart-panel-footer">
+                  <div class="cart-subtotal">
+                    <span>Subtotal</span>
+                    <span class="cart-subtotal-price">$139.400</span>
+                  </div>
+                  <a href="checkout.php" class="btn btn-checkout">Finalizar Compra</a>
+                  <a href="cart.php" class="btn-viewcart">Ver carrito completo →</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mobile Navigation Toggle -->
+            <i class="mobile-nav-toggle d-xl-none bi bi-list me-0"></i>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!-- Navigation -->
+    <div class="header-nav">
+      <div class="container-fluid container-xl position-relative">
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li><a href="index.php" class="active">Inicio</a></li>
+            <li><a href="about.php">Acerca de</a></li>
+            <li><a href="category.php">Categoría</a></li>
+            <li><a href="detalle_producto.php">Detalles de Producto</a></li>            
+            <li><a href="checkout.php">Finalizar Compra</a></li>
+            <li><a href="contact.php">Contacto</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+
+    <!-- Mobile Search Form -->
+    <div class="collapse" id="mobileSearch">
+      <div class="container-fluid container-xl">
+        <form class="mobile-search-form">
+          <div class="search-wrap">
+            <i class="bi bi-search"></i>
+            <input type="text" class="form-control" placeholder="Buscar productos...">
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </header>
+
+  <main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title light-background">
+      <div class="container d-lg-flex justify-content-between align-items-center">
+        <h1 class="mb-2 mb-lg-0">Finalizar Compra</h1>
+        <nav class="breadcrumbs">
+          <ol>
+            <li><a href="index.php">Inicio</a></li>
+            <li class="current">Finalizar Compra</li>
+          </ol>
+        </nav>
+      </div>
+    </div><!-- End Page Title -->
+
+    <!-- Checkout Section -->
+    <section id="checkout" class="checkout section">
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <!-- Progress Stepper -->
+        <div class="progress-stepper d-flex justify-content-center mb-5" data-aos="fade-down" data-aos-delay="100">
+          <div class="step-item active">
+            <div class="step-icon"><i class="bi bi-person"></i></div>
+            <span class="step-label">Datos</span>
+          </div>
+          <div class="step-line"></div>
+          <div class="step-item">
+            <div class="step-icon"><i class="bi bi-truck"></i></div>
+            <span class="step-label">Envío</span>
+          </div>
+          <div class="step-line"></div>
+          <div class="step-item">
+            <div class="step-icon"><i class="bi bi-credit-card"></i></div>
+            <span class="step-label">Pago</span>
+          </div>
+          <div class="step-line"></div>
+          <div class="step-item">
+            <div class="step-icon"><i class="bi bi-check-circle"></i></div>
+            <span class="step-label">Confirmar</span>
+          </div>
+        </div>
+
+        <div class="row">
+
+          <!-- Order Summary - Left Side -->
+          <div class="col-lg-4 order-lg-1 order-2">
+            <div class="summary-panel" data-aos="fade-right" data-aos-delay="200">
+              <div class="summary-top">
+                <h3><i class="bi bi-bag-check me-2"></i>Tu Carrito</h3>
+                <span class="badge-count">3</span>
+              </div>
+
+              <div class="summary-items">
+                <div class="summary-item">
+                  <div class="item-thumb">
+                    <img src="assets/img/product/product-1.webp" alt="Shampoo Pro Crecimiento" class="img-fluid">
+                    <span class="item-qty">1</span>
+                  </div>
+                  <div class="item-info">
+                    <h5>Shampoo Pro Crecimiento</h5>
+                    <span class="item-meta">Fórmula fortalecedora</span>
+                  </div>
+                  <div class="item-cost">$35.000</div>
+                </div><!-- End Summary Item -->
+
+                <div class="summary-item">
+                  <div class="item-thumb">
+                    <img src="assets/img/product/product-2.webp" alt="Acondicionador Botánico Romero" class="img-fluid">
+                    <span class="item-qty">1</span>
+                  </div>
+                  <div class="item-info">
+                    <h5>Acondicionador Botánico Romero</h5>
+                    <span class="item-meta">Nutrición profunda</span>
+                  </div>
+                  <div class="item-cost">$34.400</div>
+                </div><!-- End Summary Item -->
+
+                <div class="summary-item">
+                  <div class="item-thumb">
+                    <img src="assets/img/product/product-3.webp" alt="Tratamiento de Rizos" class="img-fluid">
+                    <span class="item-qty">2</span>
+                  </div>
+                  <div class="item-info">
+                    <h5>Tratamiento de Rizos</h5>
+                    <span class="item-meta">Definición y brillo</span>
+                  </div>
+                  <div class="item-cost">$70.000</div>
+                </div><!-- End Summary Item -->
+              </div>
+
+              <div class="coupon-field">
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Código de descuento" aria-label="Código de descuento">
+                  <button class="btn" type="button">Aplicar</button>
+                </div>
+              </div>
+
+              <div class="summary-breakdown">
+                <div class="breakdown-row d-flex justify-content-between">
+                  <span>Subtotal</span>
+                  <span>$139.400</span>
+                </div>
+                <div class="breakdown-row d-flex justify-content-between">
+                  <span>Envío</span>
+                  <span>$9.900</span>
+                </div>
+                <div class="breakdown-row d-flex justify-content-between">
+                  <span>Impuesto estimado</span>
+                  <span>$0</span>
+                </div>
+                <div class="breakdown-total d-flex justify-content-between">
+                  <span>Total del pedido</span>
+                  <span>$149.300</span>
+                </div>
+              </div>
+
+              <div class="trust-badges">
+                <div class="trust-item">
+                  <i class="bi bi-shield-check"></i>
+                  <span>Pago Seguro</span>
+                </div>
+                <div class="trust-icons">
+                  <i class="bi bi-credit-card-2-front"></i>
+                  <i class="bi bi-credit-card"></i>
+                  <i class="bi bi-paypal"></i>
+                  <i class="bi bi-apple"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Checkout Form - Right Side -->
+          <div class="col-lg-8 order-lg-2 order-1">
+            <div class="form-wrapper" data-aos="fade-left" data-aos-delay="150">
+              <form class="checkout-form">
+
+                <!-- Personal Details -->
+                <div class="form-block" id="customer-details">
+                  <div class="block-heading">
+                    <i class="bi bi-person-circle"></i>
+                    <h3>Datos Personales</h3>
+                  </div>
+                  <div class="block-body">
+                    <div class="row">
+                      <div class="col-md-6 form-group">
+                        <label for="fname">Nombre</label>
+                        <input type="text" name="first-name" class="form-control" id="fname" placeholder="Ingresa tu nombre" required="">
+                      </div>
+                      <div class="col-md-6 form-group">
+                        <label for="lname">Apellido</label>
+                        <input type="text" name="last-name" class="form-control" id="lname" placeholder="Ingresa tu apellido" required="">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6 form-group">
+                        <label for="cust-email">Correo Electrónico</label>
+                        <input type="email" class="form-control" name="email" id="cust-email" placeholder="tucorreo@ejemplo.com" required="">
+                      </div>
+                      <div class="col-md-6 form-group">
+                        <label for="cust-phone">Teléfono Móvil</label>
+                        <input type="tel" class="form-control" name="phone" id="cust-phone" placeholder="300 000 0000" required="">
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- End Personal Details -->
+
+                <!-- Delivery Address -->
+                <div class="form-block" id="delivery-address">
+                  <div class="block-heading">
+                    <i class="bi bi-geo-alt"></i>
+                    <h3>Dirección de Envío</h3>
+                  </div>
+                  <div class="block-body">
+                    <div class="row">
+                      <div class="col-md-8 form-group">
+                        <label for="street">Dirección</label>
+                        <input type="text" class="form-control" name="address" id="street" placeholder="Calle, número, barrio" required="">
+                      </div>
+                      <div class="col-md-4 form-group">
+                        <label for="unit">Apartamento / Oficina</label>
+                        <input type="text" class="form-control" name="apartment" id="unit" placeholder="Opcional">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-5 form-group">
+                        <label for="checkout-city">Ciudad</label>
+                        <input type="text" name="city" class="form-control" id="checkout-city" placeholder="Ciudad" required="">
+                      </div>
+                      <div class="col-md-4 form-group">
+                        <label for="checkout-state">Departamento</label>
+                        <input type="text" name="state" class="form-control" id="checkout-state" placeholder="Departamento" required="">
+                      </div>
+                      <div class="col-md-3 form-group">
+                        <label for="postal">Código Postal</label>
+                        <input type="text" name="zip" class="form-control" id="postal" placeholder="Código Postal" required="">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="checkout-country">País</label>
+                      <select class="form-select" id="checkout-country" name="country" required="">
+                        <option value="">Selecciona un país</option>
+                        <option value="CO" selected>Colombia</option>
+                        <option value="US">Estados Unidos</option>
+                        <option value="MX">México</option>
+                        <option value="AR">Argentina</option>
+                        <option value="CL">Chile</option>
+                        <option value="PE">Perú</option>
+                      </select>
+                    </div>
+                    <div class="d-flex flex-wrap gap-4 mt-2">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="remember-address" name="save-address">
+                        <label class="form-check-label" for="remember-address">Guardar esta dirección</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="same-billing" name="billing-same" checked="">
+                        <label class="form-check-label" for="same-billing">Usar como dirección de facturación</label>
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- End Delivery Address -->
+
+                <!-- Payment Info -->
+                <div class="form-block" id="payment-info">
+                  <div class="block-heading">
+                    <i class="bi bi-wallet2"></i>
+                    <h3>Información de Pago</h3>
+                  </div>
+                  <div class="block-body">
+                    <div class="pay-methods">
+                      <label class="pay-method active">
+                        <input type="radio" name="payment-method" id="pay-card" checked="">
+                        <span class="method-inner">
+                          <i class="bi bi-credit-card-2-front"></i>
+                          <span>Tarjeta</span>
+                        </span>
+                      </label>
+                      <label class="pay-method">
+                        <input type="radio" name="payment-method" id="pay-paypal">
+                        <span class="method-inner">
+                          <i class="bi bi-paypal"></i>
+                          <span>PayPal</span>
+                        </span>
+                      </label>
+                      <label class="pay-method">
+                        <input type="radio" name="payment-method" id="pay-apple">
+                        <span class="method-inner">
+                          <i class="bi bi-apple"></i>
+                          <span>Apple Pay</span>
+                        </span>
+                      </label>
+                      <label class="pay-method">
+                        <input type="radio" name="payment-method" id="pay-cash">
+                        <span class="method-inner">
+                          <i class="bi bi-cash"></i>
+                          <span>Contra Entrega</span>
+                        </span>
+                      </label>
+                    </div>
+
+                    <div class="pay-details" id="card-form">
+                      <div class="form-group">
+                        <label for="cardnum">Número de Tarjeta</label>
+                        <div class="card-input-wrap">
+                          <input type="text" class="form-control" name="card-number" id="cardnum" placeholder="0000 0000 0000 0000" required="">
+                          <div class="card-brands">
+                            <i class="bi bi-credit-card-2-front"></i>
+                            <i class="bi bi-credit-card"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4 form-group">
+                          <label for="exp-date">Fecha Expiración</label>
+                          <input type="text" class="form-control" name="expiry" id="exp-date" placeholder="MM/AA" required="">
+                        </div>
+                        <div class="col-md-4 form-group">
+                          <label for="sec-code">CVV</label>
+                          <div class="cvv-field">
+                            <input type="text" class="form-control" name="cvv" id="sec-code" placeholder="•••" required="">
+                            <span class="cvv-info" data-bs-toggle="tooltip" data-bs-placement="top" title="Código de 3 dígitos en el reverso de tu tarjeta">
+                              <i class="bi bi-info-circle"></i>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="col-md-4 form-group">
+                          <label for="cardholder">Titular de la Tarjeta</label>
+                          <input type="text" class="form-control" name="card-name" id="cardholder" placeholder="Nombre completo" required="">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="pay-details d-none" id="paypal-form">
+                      <p class="alt-pay-msg">Serás redirigido a PayPal para completar tu transacción de forma segura.</p>
+                    </div>
+
+                    <div class="pay-details d-none" id="apple-form">
+                      <p class="alt-pay-msg">Se te pedirá confirmar el pago a través de Apple Pay.</p>
+                    </div>
+
+                    <div class="pay-details d-none" id="cash-form">
+                      <p class="alt-pay-msg">Pagas al recibir tu pedido. Aceptamos efectivo y datos bancarios.</p>
+                    </div>
+                  </div>
+                </div><!-- End Payment Info -->
+
+                <!-- Confirmation -->
+                <div class="form-block" id="confirmation">
+                  <div class="block-heading">
+                    <i class="bi bi-clipboard-check"></i>
+                    <h3>Confirmar Pedido</h3>
+                  </div>
+                  <div class="block-body">
+                    <div class="form-check agreement-check">
+                      <input class="form-check-input" type="checkbox" id="agree-terms" name="terms" required="">
+                      <label class="form-check-label" for="agree-terms">
+                        Acepto los <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Términos de Servicio</a> y la <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Política de Privacidad</a>
+                      </label>
+                    </div>
+                    <div class="success-message d-none">¡Tu pedido ha sido confirmado exitosamente! Gracias por comprar con nosotros.</div>
+                    <button type="submit" class="submit-order-btn">
+                        <i class="bi bi-lock me-2"></i>
+                        Completar Compra
+                        <div style="font-size:12px; opacity:0.8;">Pago seguro y protegido</div>
+                        </button>
+                      <i class="bi bi-lock me-2"></i>
+                      <span>Completar Compra</span>
+                      <span class="order-amount">$149.300</span>
+                    </button>
+                  </div>
+                </div><!-- End Confirmation -->
+
+              </form>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Terms Modal -->
+        <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="termsModalLabel">Términos de Servicio</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p>Bienvenido a Stylos Madys. Al realizar una compra en nuestra tienda, aceptas nuestros términos y condiciones. Todos nuestros productos son de alta calidad y garantizan resultados visibles en el cuidado de tu cabello.</p>
+                <p>Las devoluciones se aceptan dentro de los 30 días posteriores a la compra, siempre que el producto esté en su empaque original y sin usar. Para más información, contáctanos a través de nuestros canales de atención.</p>
+                <p>Stylos Madys se reserva el derecho de actualizar estos términos en cualquier momento. Te recomendamos revisarlos periódicamente.</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Entendido</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Privacy Modal -->
+        <div class="modal fade" id="privacyModal" tabindex="-1" aria-labelledby="privacyModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="privacyModalLabel">Política de Privacidad</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p>En Stylos Madys valoramos tu privacidad. La información que nos proporcionas será utilizada únicamente para procesar tus pedidos y mejorar tu experiencia de compra.</p>
+                <p>No compartimos tus datos personales con terceros sin tu consentimiento explícito. Tus datos de pago son procesados de manera segura a través de nuestras plataformas certificadas.</p>
+                <p>Si tienes alguna pregunta sobre cómo manejamos tu información, no dudes en contactarnos a través de nuestro centro de ayuda.</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Entendido</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section><!-- /Checkout Section -->
+
+  </main>
+
+  <footer id="footer" class="footer dark-background">
+    <div class="footer-main">
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-4 col-md-6">
+            <div class="footer-widget footer-about">
+              <a href="index.html" class="logo">
+                <span class="sitename">Stylos Madys</span>
+              </a>
+              <p>En nuestro centro de salud y cuidado capilar nos enfocamos en revitalizar tu cuero cabelludo mientras disfrutas de una experiencia de relajación única. Cada tratamiento está diseñado para ayudarte a liberar el estrés, mejorar la salud de tu cabello y resaltar tu belleza natural.</p>
+
+              <div class="social-links mt-4">
+                <h5>Conéctate Con Nosotros</h5>
+                <div class="social-icons">
+                  <a href="https://www.facebook.com/nelly.garaylarios" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                  <a href="https://www.instagram.com/stylosmadys/" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                  <a href="https://www.tiktok.com/@dylan34_3?lang=es" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-6 col-sm-6">
+            <div class="footer-widget">
+              <h4>Tienda</h4>
+              <ul class="footer-links">
+                <li><a href="category.html">✨ Productos</a></li>
+                <li><a href="category.html">🌿 Cuidado Capilar</a></li>
+                <li><a href="category.html">💆‍♀️ Servicios</a></li>
+                <li><a href="category.html">🧴 Nuestra Tienda</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-6 col-sm-6">
+            <div class="footer-widget">
+              <h4>Soporte</h4>
+              <ul class="footer-links">
+                <li><a href="support.html">💬 Ayuda</a></li>
+                <li><a href="account.html">🚚 Seguimiento</a></li>
+                <li><a href="shiping-info.html">📦 Envíos</a></li>
+                <li><a href="return-policy.html">🔄 Cambios y Garantías</a></li>
+                <li><a href="contact.html">📲 Reserva tu Cita</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="footer-widget">
+              <h4>Información de Contacto</h4>
+              <div class="footer-contact">
+                <div class="contact-item">
+                  <i class="bi bi-geo-alt"></i>
+                  <span>Calle 12 #14-69 - Barrio Higueron, Aguachica, Cesar</span>
+                </div>
+                <div class="contact-item">
+                  <i class="bi bi-telephone"></i>
+                  <span>+57 310 491 6849</span>
+                </div>
+                <div class="contact-item">
+                  <i class="bi bi-person"></i>
+                  <span>@nellygaraylarios</span>
+                </div>
+                <div class="contact-item">
+                  <i class="bi bi-clock"></i>
+                  <span>Lunes-Viernes: 9am-6pm<br>Sábado: 10am-4pm<br>Domingo: Cerrado</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="row gy-3 align-items-center">
+          <div class="col-lg-6 col-md-12">
+            <div class="copyright">
+              <p>© <span>Copyright</span> <strong class="sitename">Stylos Madys</strong>. Todos los derechos reservados.</p>
+            </div>
+            <div class="credits mt-1">
+              Diseñado por <a href="https://bootstrapmade.com/">BootstrapMade</a>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-md-12">
+            <div class="d-flex flex-wrap justify-content-lg-end justify-content-center align-items-center gap-4">
+              <div class="payment-methods">
+                <div class="payment-icons">
+                  <i class="bi bi-credit-card" aria-label="Tarjeta de Crédito"></i>
+                  <i class="bi bi-paypal" aria-label="PayPal"></i>
+                  <i class="bi bi-apple" aria-label="Apple Pay"></i>
+                  <i class="bi bi-google" aria-label="Google Pay"></i>
+                  <i class="bi bi-shop" aria-label="Shop Pay"></i>
+                  <i class="bi bi-cash" aria-label="Contra Entrega"></i>
+                </div>
+              </div>
+
+              <div class="legal-links">
+                <a href="tos.html">Términos</a>
+                <a href="privacy.html">Privacidad</a>
+                <a href="tos.html">Cookies</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/drift-zoom/Drift.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+
+  <!-- Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+  <!-- Additional JS for payment method toggling -->
+  <script>
+    // Payment method toggle functionality
+    document.querySelectorAll('input[name="payment-method"]').forEach((radio) => {
+      radio.addEventListener('change', function() {
+        const cardForm = document.getElementById('card-form');
+        const paypalForm = document.getElementById('paypal-form');
+        const appleForm = document.getElementById('apple-form');
+        const cashForm = document.getElementById('cash-form');
+        
+        cardForm.classList.add('d-none');
+        paypalForm.classList.add('d-none');
+        appleForm.classList.add('d-none');
+        if(cashForm) cashForm.classList.add('d-none');
+        
+        if (this.id === 'pay-card') {
+          cardForm.classList.remove('d-none');
+        } else if (this.id === 'pay-paypal') {
+          paypalForm.classList.remove('d-none');
+        } else if (this.id === 'pay-apple') {
+          appleForm.classList.remove('d-none');
+        } else if (this.id === 'pay-cash') {
+          cashForm.classList.remove('d-none');
+        }
+      });
+    });
+  </script>
+
+</body>
+
+</html>
